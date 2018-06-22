@@ -26,5 +26,22 @@ RSpec.describe Article, type: :model do
   end
 
   context "scope tests " do
+    let(:params) { { title: 'Test content', body: 'Test content' } }
+
+    before(:each) do
+      Article.create(params)
+      Article.create(params)
+      Article.create(params)
+      Article.create(params.merge(active: false))
+      Article.create(params.merge(active: false))
+    end
+
+    it "should be able to select active articles" do
+      expect(Article.active.count).to eq(3)
+    end
+
+    it "should be able to select inactive articles" do
+      expect(Article.inactive.count).to eq(2)
+    end
   end
 end
